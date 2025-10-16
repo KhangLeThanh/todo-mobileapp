@@ -8,6 +8,7 @@
     "scheme": "todomobileapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "entryPoint": "app/HomeScreen.tsx",
     "ios": {
       "supportsTablet": true
     },
