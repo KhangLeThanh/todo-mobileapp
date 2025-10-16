@@ -1,6 +1,7 @@
 // components/TodoItem.tsx
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { globalStyles } from "../styles/globalStyles";
 
 interface TodoItemProps {
   item: string;
@@ -9,26 +10,13 @@ interface TodoItemProps {
 
 const TodoItem: React.FC<TodoItemProps> = ({ item, onDelete }) => {
   return (
-    <View style={styles.itemContainer}>
-      <Text style={styles.itemText}>{item}</Text>
+    <View style={globalStyles.itemContainer}>
+      <Text style={globalStyles.itemText}>{item}</Text>
       <TouchableOpacity onPress={onDelete}>
-        <Text style={styles.deleteText}>❌</Text>
+        <Text style={globalStyles.deleteText}>❌</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  itemContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 15,
-    backgroundColor: "#fff",
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  itemText: { fontSize: 16 },
-  deleteText: { fontSize: 18 },
-});
 
 export default TodoItem;
