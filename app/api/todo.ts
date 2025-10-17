@@ -15,3 +15,25 @@ export const createTodo = async (
   const res = await axios.post(API_URL, { title, content, status });
   return res.data;
 };
+
+export const getDetailsTodo = async (todoId: number) => {
+  const res = await axios.get(`${API_URL}/${todoId}`);
+  return res.data;
+};
+export const updateTodo = async (
+  title: string,
+  content: string,
+  status: string,
+  todoId: number
+) => {
+  const res = await axios.patch(`${API_URL}/${todoId}`, {
+    title,
+    content,
+    status,
+  });
+  return res.data;
+};
+export const deleteTodo = async (todoId: number) => {
+  const res = await axios.delete(`${API_URL}/${todoId}`);
+  return res.data;
+};

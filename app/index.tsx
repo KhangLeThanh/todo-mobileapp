@@ -8,36 +8,22 @@ import {
   View,
 } from "react-native";
 import Modal from "react-native-modal";
+import { useTodos } from "../app/hooks/useTodo";
 import TodoItem from "../components/TodoItem";
 import { globalStyles } from "../styles/globalStyles";
-import { createTodo, getTodos } from "./api/todo";
-import { Todo } from "./types";
 
 const HomeScreen: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const [todo, setTodo] = useState<Todo[]>([]);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const { todos, loading, fetchTodos, addTodo } = useTodos();
 
-  const fetchTodos = async () => {
-    try {
-      setLoading(true);
-      const data = await getTodos();
-      setTodo(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
   const addTask = async () => {
     if (!title || !content) return;
-    await createTodo(title, content, "Todo");
+    await addTodo(title, content);
     setTitle("");
     setContent("");
     setModalVisible(false);
-    fetchTodos();
   };
   useEffect(() => {
     fetchTodos();
@@ -84,7 +70,7 @@ const HomeScreen: React.FC = () => {
       </Modal>
       {/* Task List */}
       <FlatList
-        data={todo}
+        data={todos}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <TodoItem item={item} />}
       />
