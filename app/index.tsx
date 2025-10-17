@@ -1,39 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  FlatList,
+  ActivityIndicator,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import TodoItem from "../components/TodoItem";
 import { globalStyles } from "../styles/globalStyles";
+import { createTodo, getTodos } from "./api/todo";
 
 const HomeScreen: React.FC = () => {
-  const [task, setTask] = useState<string>("");
-  const [tasks, setTasks] = useState<string[]>([]);
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [todo, setTodo] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const addTask = () => {
-    if (task.trim()) {
-      setTasks([...tasks, task]);
-      setTask("");
+  const fetchTodos = async () => {
+    try {
+      setLoading(true);
+      const data = await getTodos();
+      setTodo(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
-
-  const deleteTask = (index: number) => {
-    const newTasks = [...tasks];
-    newTasks.splice(index, 1);
-    setTasks(newTasks);
+  const addTask = async () => {
+    if (!title || !content) return;
+    await createTodo(title, content, "Todo");
+    setTitle("");
+    setContent("");
+    fetchTodos();
   };
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  if (loading) return <ActivityIndicator size="large" style={{ flex: 1 }} />;
 
   return (
     <View style={globalStyles.container}>
       <View style={globalStyles.inputContainer}>
         <TextInput
           style={globalStyles.input}
-          placeholder="Add a task..."
-          value={task}
-          onChangeText={setTask}
+          placeholder="Add a title"
+          value={title}
+          onChangeText={setTitle}
+        />
+        <TextInput
+          style={globalStyles.input}
+          placeholder="Add a content"
+          value={content}
+          onChangeText={setContent}
         />
         <TouchableOpacity style={globalStyles.button} onPress={addTask}>
           <Text style={globalStyles.buttonText}>Add</Text>
@@ -41,13 +60,6 @@ const HomeScreen: React.FC = () => {
       </View>
 
       {/* Task List */}
-      <FlatList
-        data={tasks}
-        keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item, index }) => (
-          <TodoItem item={item} onDelete={() => deleteTask(index)} />
-        )}
-      />
     </View>
   );
 };
