@@ -9,6 +9,7 @@ interface Styles {
   itemContainer: ViewStyle;
   itemText: TextStyle;
   deleteText: TextStyle;
+  modalContent: ViewStyle;
 }
 
 export const globalStyles = StyleSheet.create<Styles>({
@@ -21,14 +22,14 @@ export const globalStyles = StyleSheet.create<Styles>({
     padding: 10,
     borderRadius: 5,
     backgroundColor: "#fff",
+    marginBottom: 15,
   },
   button: {
-    marginLeft: 10,
     backgroundColor: "#007AFF",
     padding: 10,
     borderRadius: 5,
   },
-  buttonText: { color: "#fff" },
+  buttonText: { color: "#fff", textAlign: "center" },
   itemContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -39,4 +40,10 @@ export const globalStyles = StyleSheet.create<Styles>({
   },
   itemText: { fontSize: 16 },
   deleteText: { fontSize: 18 },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
 });

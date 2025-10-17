@@ -4,13 +4,14 @@ import { Text, View } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 
 interface TodoItemProps {
-  item: string;
+  item: { title: string; status: string };
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ item }) => {
   return (
     <View style={globalStyles.itemContainer}>
-      <Text style={globalStyles.itemText}>{item}</Text>
+      <Text style={globalStyles.itemText}>{item.title}</Text>
+      <Text style={globalStyles.itemText}>{item.status}</Text>
     </View>
   );
 };
