@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useTodos } from "../app/hooks/useTodo";
 import { globalStyles } from "../styles/globalStyles";
+import FormTodo from "./FormTodo";
 
 interface TodoItemProps {
   item: Todo;
@@ -11,6 +12,8 @@ interface TodoItemProps {
 
 const TodoItem: React.FC<TodoItemProps> = ({ item }) => {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [idTodo, setIdTodo] = useState<number>(0);
+
   const { removeTodo } = useTodos();
 
   const deleteTask = async (todoId: number) => {
@@ -25,7 +28,13 @@ const TodoItem: React.FC<TodoItemProps> = ({ item }) => {
         <Text style={globalStyles.itemText}>{item.status}</Text>
       </View>
       <View style={{ justifyContent: "flex-end" }}>
-        <TouchableOpacity style={globalStyles.button}>
+        <TouchableOpacity
+          style={globalStyles.button}
+          onPress={() => {
+            setModalVisible(true);
+            setIdTodo(item.id);
+          }}
+        >
           <Text style={globalStyles.buttonText}>Edit</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -35,6 +44,12 @@ const TodoItem: React.FC<TodoItemProps> = ({ item }) => {
           <Text style={globalStyles.buttonText}>Delete</Text>
         </TouchableOpacity>
       </View>
+      <FormTodo
+        isVisible={isModalVisible}
+        setIsVisible={setModalVisible}
+        id={idTodo}
+        resetId={setIdTodo}
+      />
     </View>
   );
 };

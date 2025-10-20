@@ -69,9 +69,7 @@ export const useTodos = () => {
   const removeTodo = async (todoId: number) => {
     try {
       await deleteTodo(todoId);
-      setTodos((prev) =>
-        prev.filter((todo) => todo.id.toString() !== todoId.toString())
-      );
+      setTodos((prev) => prev.filter((todo) => todo.id !== todoId));
     } catch (err) {
       console.error("Failed to delete todo:", err);
     }
